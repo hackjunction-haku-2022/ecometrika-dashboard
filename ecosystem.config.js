@@ -9,6 +9,9 @@ module.exports = {
         max_restarts: 30,
         watch: false,
         max_memory_restart: '2G',
+        env_prelive: {
+            DB_URL: process.env.DB_PRELIVE_URL
+        }
       },
     ],
     deploy: {

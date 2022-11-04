@@ -4,6 +4,7 @@ import { URL } from 'url';
 import { groupBy } from 'lodash';
 import { MongoClient } from 'mongodb';
 
+console.log("DB env", process.env.DB_URL);
 const dbClient = new MongoClient(process.env.DB_URL as string);
 
 dbClient.connect();
