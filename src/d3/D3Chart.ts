@@ -4,28 +4,23 @@ export class D3Chart {
     isInited: boolean;
     rootSelector: string;
     svg?: any;
+    x: any;
+    y: any;
    
     constructor(selector: string) {
       this.rootSelector = selector;
       this.isInited = false;
     }
    
-    async create() {
+    public async create() {
       if (this.isInited) {
         return;
       }
   
       this.isInited = true;
   
-      // read data from csv and format constiables
-      let data = await d3.csv('https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv')
-      const parseTime = d3.timeParse("%Y-%m-%d");
-    
-      data.forEach((d) => {
-        d.date = parseTime(d.date);
-        d.value = +d.value;
-      });
-  
+      const data = await this.loadData();
+
       // set the dimensions and margins of the graph
       const margin = { top: 20, right: 20, bottom: 50, left: 70 };
       const width = 960 - margin.left - margin.right;
@@ -39,23 +34,39 @@ export class D3Chart {
           .attr("transform", `translate(${margin.left}, ${margin.top})`);
   
       // add X axis and Y axis
-      const x = d3.scaleTime().range([0, width]);
-      const y = d3.scaleLinear().range([height, 0]);
+      this.x = d3.scaleTime().range([0, width]);
+      this.y = d3.scaleLinear().range([height, 0]);
   
-      x.domain(d3.extent(data, (d) => { return d.date; }));
-      y.domain([0, d3.max(data, (d) => { return d.value; })]);
+      this.x.domain(d3.extent(data, (d) => { return d.date; }));
+      this.y.domain([0, d3.max(data, (d) => { return d.value; })]);
     
       this.svg.append("g")
         .attr("transform", `translate(0, ${height})`)
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(this.x));
   
         this.svg.append("g")
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(this.y));
         
+        this.draw(data);
+    }
+
+    public async loadData() {
+      // read data from csv and format constiables
+      let data = await d3.csv('https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv')
+      const parseTime = d3.timeParse("%Y-%m-%d");
+
+      data.forEach((d: any) => {
+        d.date = parseTime(d.date);
+        d.value = +d.value;
+      });
+      return data;
+    }
+
+    public draw(data: any) {
       // add the Line
       const valueLine = d3.line()
-        .x((d) => { return x(d.date); })
-        .y((d) => { return y(d.value); });
+        .x((d: any) => this.x(d.date))
+        .y((d: any) => this.y(d.value));
     
       this.svg.append("path")
         .data([data])
@@ -64,5 +75,5 @@ export class D3Chart {
         .attr("stroke", "steelblue")
         .attr("stroke-width", 1.5)
         .attr("d", valueLine);
-      }
+    }
   }
