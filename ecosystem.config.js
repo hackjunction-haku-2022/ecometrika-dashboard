@@ -20,8 +20,8 @@ module.exports = {
             host: process.env.DEPLOY_PRELIVE_HOST,
           },
         ],
-        key: 'deploy.key',
-        ref: 'origin/feature/pipeline',
+        key: 'deploy.prelive.key',
+        ref: 'origin/main',
         repo: 'git@github.com:hackjunction-haku-2022/ecometrika-dashboard.git',
         path: '/opt/dashboard'
       },
