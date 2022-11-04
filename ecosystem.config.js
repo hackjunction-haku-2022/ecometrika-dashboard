@@ -23,7 +23,10 @@ module.exports = {
         key: 'deploy.prelive.key',
         ref: 'origin/main',
         repo: 'git@github.com:hackjunction-haku-2022/ecometrika-dashboard.git',
-        path: '/opt/dashboard'
+        path: '/opt/dashboard',
+        env: {
+            DB_URL: process.env.DB_PRELIVE_URL
+        }
       },
     },
   };
