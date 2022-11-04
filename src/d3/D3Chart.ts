@@ -21,7 +21,7 @@ export class D3Chart {
       let data = await d3.csv('https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv')
       const parseTime = d3.timeParse("%Y-%m-%d");
     
-      data.forEach((d) => {
+      data.forEach((d: any) => {
         d.date = parseTime(d.date);
         d.value = +d.value;
       });
