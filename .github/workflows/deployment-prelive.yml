@@ -25,7 +25,6 @@ jobs:
     - name: Deployment
       run: pm2 deploy ecosystem.config.js prelive
       env:
+        DB_PRELIVE_URL: ${{secrets.DB_PRELIVE_URL}}
         DEPLOY_PRELIVE_USER: ${{secrets.DEPLOY_PRELIVE_USER}}
         DEPLOY_PRELIVE_HOST: ${{secrets.DEPLOY_PRELIVE_HOST}}
-        SERVER_HOST: ${{secrets.SERVER_PRELIVE_HOST}}
-        SERVER_PORT: ${{secrets.SERVER_PRELIVE_PORT}}

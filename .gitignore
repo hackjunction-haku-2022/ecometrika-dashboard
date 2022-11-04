@@ -37,3 +37,4 @@ next-env.d.ts
 
 # devops
 deploy.prelive.key
+.env
