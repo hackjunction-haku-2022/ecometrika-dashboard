@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {RaitingTable} from '../src/client/components/RaitingTable';
+import Graph from '../src/client/components/Graph';
 
 function createData(
   name: string,
@@ -32,9 +33,12 @@ export default function Home() {
           alignItems: 'center',
         }}
       >
+        <React.StrictMode>
+      </React.StrictMode>
         <Typography variant="h2" component="h1" gutterBottom>
-          TOP ECO SITES IN THE WEB
+          Pulse
         </Typography>
+        <Graph wrapperClass="firstSit" />
         <RaitingTable domains={domains}/>
       </Box>
     </Container>
