@@ -49,8 +49,8 @@ export async function addPulse(pulseValue: PulseDocument) {
     await pulseCollection.insertOne(value);
 }
 
-export function getPulseByDomain() {
-    return groupBy(pulseCollection.find({}), "domain");
+export async function getPulseByDomain() {
+    return groupBy(await pulseCollection.find({}), "domain");
 }
 
 
