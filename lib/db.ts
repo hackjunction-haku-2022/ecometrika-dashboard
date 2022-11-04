@@ -50,7 +50,7 @@ export async function addPulse(pulseValue: PulseDocument) {
 }
 
 export async function getPulseByDomain() {
-    return groupBy(await pulseCollection.find({}), "domain");
+    return groupBy(await pulseCollection.find({}).toArray(), "domain");
 }
 
 
