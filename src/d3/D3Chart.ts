@@ -3,9 +3,12 @@ import * as d3 from 'd3';
 export class D3Chart {
     isInited: boolean;
     rootSelector: string;
-    svg?: any;
-    x: any;
-    y: any;
+    svg?: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
+    // x?: d3.ScaleTime<any, any, any>;
+    // y?: d3.ScaleLinear<number, number, never>;
+    x?: any;
+    y?: any;
+
    
     constructor(selector: string) {
       this.rootSelector = selector;
@@ -63,6 +66,9 @@ export class D3Chart {
     }
 
     public draw(data: any) {
+      if (! this.svg) {
+        return;
+      }
       // add the Line
       const valueLine = d3.line()
         .x((d: any) => this.x(d.date))
