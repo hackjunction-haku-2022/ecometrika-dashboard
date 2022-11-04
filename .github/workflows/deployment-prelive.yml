@@ -6,13 +6,14 @@ on:
 
 jobs:
   deploy:
+    name: Deployment on PRELIVE
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
-        echo "$DEPLOY_PRELIVE_KEY" > ./deploy.key
+        echo "$DEPLOY_PRELIVE_KEY" > ./deploy.prelive.key
         sudo chmod 600 ./deploy.key
         echo "$DEPLOY_PRELIVE_KNOWN_HOSTS" > ~/.ssh/known_hosts
       shell: bash
