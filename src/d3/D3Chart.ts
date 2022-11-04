@@ -21,8 +21,10 @@ export class D3Chart {
       let data = await d3.csv('https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv')
       const parseTime = d3.timeParse("%Y-%m-%d");
     
-      data.forEach((d: any) => {
+      data.forEach((d) => {
+        // @ts-ignore
         d.date = parseTime(d.date);
+        // @ts-ignore
         d.value = +d.value;
       });
   
@@ -42,7 +44,9 @@ export class D3Chart {
       const x = d3.scaleTime().range([0, width]);
       const y = d3.scaleLinear().range([height, 0]);
   
+      // @ts-ignore
       x.domain(d3.extent(data, (d) => { return d.date; }));
+      // @ts-ignore
       y.domain([0, d3.max(data, (d) => { return d.value; })]);
     
       this.svg.append("g")
