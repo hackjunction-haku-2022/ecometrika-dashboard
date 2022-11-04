@@ -59,5 +59,6 @@ export function getSite() {
 }
 
 export async function updateSite(siteValue: SiteDocument) {
+    console.log("Update site", siteValue);
     return siteCollection.updateOne({}, { $set: { ...siteValue, timestamp: Date.now() } }, { upsert: true });
 }
