@@ -9,7 +9,7 @@ const MARGIN = {
 }
 
 const MEASUREMENTS = {
-  width: 960,
+  width: 1100,
   height: 500
 }
 
@@ -25,8 +25,10 @@ export class PulseChart {
     svg?: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
     x?: d3.ScaleTime<number, number, never>
     y?: d3.ScaleLinear<number, number, never>;
+    data: PulseItem[];
    
-    constructor(selector: string) {
+    constructor(selector: string, data: PulseItem[]) {
+      this.data = data;
       this.rootSelector = selector;
       this.isInited = false;
     }
@@ -37,8 +39,6 @@ export class PulseChart {
       }
   
       this.isInited = true;
-  
-      const data = await this.loadData();
 
       const width = MEASUREMENTS.width - MARGIN.left - MARGIN.right;
       const height = MEASUREMENTS.height - MARGIN.top - MARGIN.bottom;
@@ -54,10 +54,10 @@ export class PulseChart {
       this.x = d3.scaleTime().range([0, width]);
       this.y = d3.scaleLinear().range([height, 0]);
   
-      this.x.domain(<Iterable<NumberValue | Date>>d3.extent<PulseItem>(data, (d) => d?.date));
+      this.x.domain(<Iterable<NumberValue | Date>>d3.extent<PulseItem>(this.data, (d) => d?.date));
       this.y.domain(<Iterable<NumberValue>>[
-        d3.max<PulseItem, number>(data, (d) => d.value - 10),
-        d3.max<PulseItem, number>(data, (d) => d.value + 5)
+        d3.max<PulseItem, number>(this.data, (d) => d.value - 10),
+        d3.max<PulseItem, number>(this.data, (d) => d.value + 5)
       ]);
     
       this.svg.append('g')
@@ -67,19 +67,7 @@ export class PulseChart {
         this.svg.append('g')
         .call(d3.axisLeft(this.y));
         
-        this.draw(data);
-    }
-
-    public async loadData(): Promise<PulseItem[]> {
-      let data = await d3.json('/api/pulse/by-domain') as any;
-
-      return data['stackoverflow.com'].map((d: {
-        timestamp: string,
-        value: number
-      }) => ({
-        date: new Date(d.timestamp),
-        value: +d.value
-      }));
+        this.draw(this.data);
     }
 
     public draw(data: PulseItem[]) {

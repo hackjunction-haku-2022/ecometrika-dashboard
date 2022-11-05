@@ -4,6 +4,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {RaitingTable} from '../src/client/components/RaitingTable';
 import Graph from '../src/client/components/Graph';
+import Button from '@mui/material/Button';
+import styled from '@emotion/styled'
 
 function createData(
   name: string,
@@ -21,6 +23,19 @@ const domains = [
   createData('Gingerbread', 356, 16.0),
 ];
 
+const StyledButton = styled(Button)`
+  margin-right: 20px;
+`;
+
+const RedSircle = styled.div`
+height: 15px;
+width: 15px;
+background-color: red;
+border-radius: 50%;
+display: inline-block;
+margin-right: 10px;
+`;
+
 export default function Home() {
   return (
     <Container maxWidth="lg">
@@ -33,11 +48,25 @@ export default function Home() {
           alignItems: 'center',
         }}
       >
-        <React.StrictMode>
-      </React.StrictMode>
         <Typography variant="h2" component="h1" gutterBottom>
-          Pulse
+          Listen to your <span color="red">pulse</span>
         </Typography>
+        <div>
+      {([
+        {name: 'Live' },
+        {name: 'History' },
+        {name: 'Top-Chart'}
+      ] as const).map((anchor) => (
+        <>
+          <StyledButton variant="contained" onClick={() => {}}>
+            {anchor.name === 'Live' && (
+              <RedSircle />
+            )}
+            {anchor.name}
+          </StyledButton>
+        </>
+      ))}
+    </div>
         <Graph wrapperClass="firstSit" />
         <RaitingTable domains={domains}/>
       </Box>
