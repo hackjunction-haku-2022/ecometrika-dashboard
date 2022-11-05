@@ -26,11 +26,13 @@ export class PulseChart {
     x?: d3.ScaleTime<number, number, never>
     y?: d3.ScaleLinear<number, number, never>;
     data: PulseItem[];
+    siteName: string;
    
-    constructor(selector: string, data: PulseItem[]) {
+    constructor(selector: string, data: PulseItem[], siteName: string) {
       this.data = data;
       this.rootSelector = selector;
       this.isInited = false;
+      this.siteName = siteName;
     }
    
     public async create() {
@@ -93,6 +95,6 @@ export class PulseChart {
         .attr('text-anchor', 'middle')
         .attr('stroke', 'red')
         .attr("class", "myLabel")
-        .text("stackoverflow.com");
+        .text(this.siteName);
     }
   }
