@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { PulseChart } from "../../../charts/PulseChart";
 
-export default function Graph({wrapperClass}: {wrapperClass: string;}) {
+export default function LastPulseGraph({wrapperClass}: {wrapperClass: string;}) {
   const [data, setData] = useState(null);
   const [chart, setD3chart] = useState<any>(null);
   const [siteName, setSitename] = useState('');
@@ -19,7 +19,7 @@ export default function Graph({wrapperClass}: {wrapperClass: string;}) {
         value: +d.value
       }));
 
-    setSitename(axiosData.data[0].domain)
+    setSitename(axiosData.data[0]?.domain)
     setData(preparedData);
   };
 

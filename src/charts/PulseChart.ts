@@ -14,7 +14,7 @@ const MEASUREMENTS = {
 }
 
 export type PulseItem = {
-  date: string,
+  date: any,
   value: number
 };
 
@@ -55,11 +55,11 @@ export class PulseChart {
       // add X axis and Y axis
       this.x = d3.scaleTime().range([0, width]);
       this.y = d3.scaleLinear().range([height, 0]);
-  
+
+      console.log(this.data[0]);
       this.x.domain(<Iterable<NumberValue | Date>>d3.extent<PulseItem>(this.data, (d) => d?.date));
       this.y.domain(<Iterable<NumberValue>>[
-        d3.max<PulseItem, number>(this.data, (d) => d.value - 10),
-        d3.max<PulseItem, number>(this.data, (d) => d.value + 5)
+        60, 100
       ]);
     
       this.svg.append('g')
@@ -97,5 +97,31 @@ export class PulseChart {
         .attr('stroke', 'red')
         .attr("class", "myLabel")
         .text(this.siteName);
+    }
+
+    public add(data: PulseItem[]) {
+      console.log('ddd', data)
+      this.data = data;
+  
+      if (this.x && this.svg) {
+      this.x.domain(
+        <Iterable<NumberValue | Date>>d3.extent<PulseItem>(this.data, (d) => d?.date)
+      );
+
+      //this.svg.select('g.x.axis').call(d3.max<PulseItem, number>(this.data, (d) => d.value - 10) as any);
+
+      // add the Line
+      const valueLine = d3.line<any>()
+        .x((d: PulseItem) => this.x?.(d?.date as unknown as Date) || 0)
+        .y((d: PulseItem) => this.y?.(d?.value as unknown as Date) || 0);
+
+      this.svg.select('path.line')
+        .data([data])
+        .attr('fill', 'none')
+        .attr('stroke', (this.data.length % 2) ? 'blue' : 'red')
+        .attr('stroke-width', 2.5)
+        .attr('d', valueLine);
+
+      }
     }
   }

@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {RaitingTable} from '../src/client/components/RaitingTable';
-import Graph from '../src/client/components/Graph';
+import LastPulseGraph from '../src/client/components/LastPulseGraph';
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled'
 
@@ -67,7 +67,7 @@ export default function Home() {
         </>
       ))}
     </div>
-        <Graph wrapperClass="firstSit" />
+        <LastPulseGraph wrapperClass="firstSit" />
         <RaitingTable domains={domains}/>
       </Box>
     </Container>
