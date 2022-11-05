@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo } from "react";
-import { D3Chart } from "../../../d3/D3Chart";
+import { PulseChart } from "../../../charts/pulseChart";
 
 export default function Graph({wrapperClass}: {wrapperClass: string;}) {
   const d3Chart = useMemo(() => {
-    return new D3Chart('.' + wrapperClass)
+    return new PulseChart('.' + wrapperClass)
   }, [wrapperClass]);
 
   useEffect(() => {
