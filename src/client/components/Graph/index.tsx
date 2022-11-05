@@ -4,17 +4,22 @@ import { PulseChart } from "../../../charts/PulseChart";
 
 export default function Graph({wrapperClass}: {wrapperClass: string;}) {
   const [data, setData] = useState(null);
+  const [chart, setD3chart] = useState<any>(null);
+  const [siteName, setSitename] = useState('');
 
   const getData = async function() {
-    const axiosData = await axios.get('/api/pulse/by-domain') as any;
+    const axiosData = await axios.get('/api/pulse/by-domain/latest') as any;
 
-    const preparedData = axiosData.data['stackoverflow.com'].map((d: {
+    const preparedData = axiosData.data.map((d: {
         timestamp: string,
-        value: number
+        value: number,
+        domain: string;
       }) => ({
         date: new Date(d.timestamp),
         value: +d.value
       }));
+
+    setSitename(axiosData.data[0].domain)
     setData(preparedData);
   };
 
@@ -24,11 +29,12 @@ export default function Graph({wrapperClass}: {wrapperClass: string;}) {
   }, []);
 
   useEffect(() => {
-    if (data) {
-      const d3Chart = new PulseChart('.' + wrapperClass, data)
+    if (data && !chart) {
+      const d3Chart = new PulseChart('.' + wrapperClass, data, siteName)
+      setD3chart(d3Chart);
       d3Chart.create();
     }
-  }, [data]);
+  }, [data, chart]);
 
   return (
     <div className={wrapperClass}></div>
