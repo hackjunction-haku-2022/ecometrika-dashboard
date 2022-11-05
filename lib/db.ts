@@ -43,7 +43,12 @@ export async function addPulse(pulseValue: PulseDocument) {
     }
 
     const url = new URL(site.url);
-    const value = { ...pulseValue, timestamp: Date.now(), domain: url.host, path: url.pathname };
+    const value = {
+        ...pulseValue,
+        timestamp: Date.now(),
+        domain: url.host,
+        path: url.pathname
+    };
 
     console.log("Add pulse", value);
     await pulseCollection.insertOne(value);
