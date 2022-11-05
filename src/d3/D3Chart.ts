@@ -1,14 +1,12 @@
 import * as d3 from 'd3';
+import { NumberValue } from 'd3';
 
 export class D3Chart {
     isInited: boolean;
     rootSelector: string;
     svg?: d3.Selection<SVGGElement, unknown, HTMLElement, any>;
-    // x?: d3.ScaleTime<any, any, any>;
-    // y?: d3.ScaleLinear<number, number, never>;
-    x?: any;
-    y?: any;
-
+    x?: d3.ScaleTime<number, number, never>
+    y?: d3.ScaleLinear<number, number, never>;
    
     constructor(selector: string) {
       this.rootSelector = selector;
@@ -30,24 +28,24 @@ export class D3Chart {
       const height = 500 - margin.top - margin.bottom;
   
       // append the svg object to the body of the page
-      this.svg = d3.select(this.rootSelector).append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-          .attr("transform", `translate(${margin.left}, ${margin.top})`);
+      this.svg = d3.select(this.rootSelector).append('svg')
+          .attr('width', width + margin.left + margin.right)
+          .attr('height', height + margin.top + margin.bottom)
+          .append('g')
+          .attr('transform', `translate(${margin.left}, ${margin.top})`);
   
       // add X axis and Y axis
       this.x = d3.scaleTime().range([0, width]);
       this.y = d3.scaleLinear().range([height, 0]);
   
-      this.x.domain(d3.extent(data, (d) => { return d.date; }));
-      this.y.domain([0, d3.max(data, (d) => { return d.value; })]);
+      this.x.domain(<Iterable<NumberValue | Date>>d3.extent(data, (d) => d.date));
+      this.y.domain(<Iterable<NumberValue>>[0, d3.max(data, (d) => d.value)]);
     
-      this.svg.append("g")
-        .attr("transform", `translate(0, ${height})`)
+      this.svg.append('g')
+        .attr('transform', `translate(0, ${height})`)
         .call(d3.axisBottom(this.x));
   
-        this.svg.append("g")
+        this.svg.append('g')
         .call(d3.axisLeft(this.y));
         
         this.draw(data);
@@ -56,13 +54,12 @@ export class D3Chart {
     public async loadData() {
       // read data from csv and format constiables
       let data = await d3.csv('https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv')
-      const parseTime = d3.timeParse("%Y-%m-%d");
+      const parseTime = d3.timeParse('%Y-%m-%d');
 
-      data.forEach((d: any) => {
-        d.date = parseTime(d.date);
-        d.value = +d.value;
-      });
-      return data;
+      return data.map((d: any) => ({
+        date: parseTime(d.date),
+        value: +d.value
+      }));
     }
 
     public draw(data: any) {
@@ -71,15 +68,15 @@ export class D3Chart {
       }
       // add the Line
       const valueLine = d3.line()
-        .x((d: any) => this.x(d.date))
-        .y((d: any) => this.y(d.value));
+        .x((d: any) => this.x?.(d?.date) || 0)
+        .y((d: any) => this.y?.(d?.value) || 0);
     
-      this.svg.append("path")
+      this.svg.append('path')
         .data([data])
-        .attr("class", "line")
-        .attr("fill", "none")
-        .attr("stroke", "steelblue")
-        .attr("stroke-width", 1.5)
-        .attr("d", valueLine);
+        .attr('class', 'line')
+        .attr('fill', 'none')
+        .attr('stroke', 'steelblue')
+        .attr('stroke-width', 1.5)
+        .attr('d', valueLine);
     }
   }
