@@ -78,8 +78,9 @@ export class PulseChart {
       }
       // add the Line
       const valueLine = d3.line<any>()
+        .curve(d3.curveBasis)
         .x((d: PulseItem) => this.x?.(d?.date as unknown as Date) || 0)
-        .y((d: PulseItem) => this.y?.(d?.value as unknown as Date) || 0);
+        .y((d: PulseItem) => this.y?.(d?.value as unknown as Date) || 0)
     
       this.svg.append('path')
         .data([data])
