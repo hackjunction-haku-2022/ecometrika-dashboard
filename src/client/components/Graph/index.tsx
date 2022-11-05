@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import { PulseChart } from "../../../charts/pulseChart";
+import { PulseChart } from "../../../charts/PulseChart";
 
 export default function Graph({wrapperClass}: {wrapperClass: string;}) {
   const d3Chart = useMemo(() => {
