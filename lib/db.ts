@@ -63,6 +63,30 @@ export function getSite() {
     return siteCollection.findOne({});
 }
 
+export async function getLatestByDomain() {
+    let values: PulseDocument[] = [];
+    let domain = null;
+
+    const cursor = pulseCollection.find({}, { sort: { timestamp: 'desc' } });
+
+    while (true) {
+        const doc = await cursor.next();
+
+        if (!doc) {
+            break;
+        }
+
+        if (domain !== null && doc.domain !== domain) {
+            break;
+        }
+
+        values.push(doc);
+        domain = doc.domain;
+    }
+
+    return values;
+}
+
 export async function updateSite(siteValue: SiteDocument) {
     console.log("Update site", siteValue);
     return siteCollection.updateOne({}, { $set: { ...siteValue, timestamp: Date.now() } }, { upsert: true });
