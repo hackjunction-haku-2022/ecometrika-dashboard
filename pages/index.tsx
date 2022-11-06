@@ -53,13 +53,20 @@ export default function Home() {
         </Typography>
         <div>
       {([
-        {name: 'Live' },
-        {name: 'History' },
-        {name: 'Top-Chart'}
+        {name: 'Demo', onClick: () => {
+          window.location.href = "/demo"
+        } }
+        /*
+        {name: 'History', onClick: () => {
+          window.location.href = "/demo"
+        } },
+        {name: 'Top-Chart', onClick: () => {
+          window.location.href = "/demo"
+        }}*/
       ] as const).map((anchor) => (
         <>
-          <StyledButton variant="contained" onClick={() => {}}>
-            {anchor.name === 'Live' && (
+          <StyledButton variant="contained" onClick={anchor.onClick}>
+            {anchor.name === 'Demo' && (
               <RedSircle />
             )}
             {anchor.name}
@@ -68,7 +75,6 @@ export default function Home() {
       ))}
     </div>
         <LastPulseGraph wrapperClass="firstSit" />
-        <RaitingTable domains={domains}/>
       </Box>
     </Container>
   );
