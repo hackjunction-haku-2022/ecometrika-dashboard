@@ -2,7 +2,7 @@ import * as React from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {RaitingTable} from '../src/client/components/RaitingTable';
+import Menu from "../src/client/components/Menu";
 import LastPulseGraph from '../src/client/components/LastPulseGraph';
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled'
@@ -51,29 +51,21 @@ export default function Home() {
         <Typography variant="h2" component="h1" gutterBottom>
           Listen to your <span color="red">pulse</span>
         </Typography>
-        <div>
-      {([
-        {name: 'Demo', onClick: () => {
-          window.location.href = "/demo"
-        } }
-        /*
-        {name: 'History', onClick: () => {
-          window.location.href = "/demo"
-        } },
-        {name: 'Top-Chart', onClick: () => {
-          window.location.href = "/demo"
-        }}*/
-      ] as const).map((anchor) => (
-        <>
-          <StyledButton variant="contained" onClick={anchor.onClick}>
-            {anchor.name === 'Demo' && (
-              <RedSircle />
-            )}
-            {anchor.name}
-          </StyledButton>
-        </>
-      ))}
-    </div>
+
+        <Typography variant="subtitle1" component="p" gutterBottom>
+        An App measures your pulse when you browse the site.
+
+        </Typography>
+        <Menu active="1" />
+        <Box
+          sx={{
+            mt: '22px',
+          }}
+        >
+          <Typography variant="subtitle1" component="h3" gutterBottom>
+          You can observe how to change a pulse at the last session.
+          </Typography>
+          </Box>
         <LastPulseGraph wrapperClass="firstSit" />
       </Box>
     </Container>
