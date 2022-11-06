@@ -1876,61 +1876,12 @@ const stubs = [
       "domain": "meduza.io",
       "path": "/"
   },
-  {
-      "_id": "6366906c78bc835efab8cf90",
-      "id": "Unknown",
-      "value": 73,
-      "timestamp": 1667666028908,
-      "domain": "meduza.io",
-      "path": "/"
-  },
-  {
-      "_id": "63668f9a78bc835efab8cf8f",
-      "id": "B3FC4098-5FA6-4745-94FA-1088EC21D93B",
-      "value": 78,
-      "timestamp": 1667665818475,
-      "domain": "meduza.io",
-      "path": "/"
-  },
-  {
-      "_id": "63668f9078bc835efab8cf8e",
-      "id": "B3FC4098-5FA6-4745-94FA-1088EC21D93B",
-      "value": 78,
-      "timestamp": 1667665808476,
-      "domain": "meduza.io",
-      "path": "/"
-  },
-  {
-      "_id": "63668f8678bc835efab8cf8d",
-      "id": "B3FC4098-5FA6-4745-94FA-1088EC21D93B",
-      "value": 60,
-      "timestamp": 1667665798489,
-      "domain": "meduza.io",
-      "path": "/"
-  },
-  {
-      "_id": "63668f7c78bc835efab8cf8c",
-      "id": "B3FC4098-5FA6-4745-94FA-1088EC21D93B",
-      "value": 60,
-      "timestamp": 1667665788454,
-      "domain": "meduza.io",
-      "path": "/"
-  },
-  {
-      "_id": "63668f7278bc835efab8cf8b",
-      "id": "B3FC4098-5FA6-4745-94FA-1088EC21D93B",
-      "value": 60,
-      "timestamp": 1667665778455,
-      "domain": "meduza.io",
-      "path": "/"
-  }
 ].reverse();
 
 
 export default function DemoPulseGraph({wrapperClass}: {wrapperClass: string;}) {
   const [data, setData] = useState<any>(null);
   const [chart, setD3chart] = useState<any>(null);
-  const [siteName, setSitename] = useState('');
 
   const getData = async function() {
     const st = (i = 0, data: any = []) => setTimeout(() => {
@@ -1944,7 +1895,7 @@ export default function DemoPulseGraph({wrapperClass}: {wrapperClass: string;}) 
       if(stubs[i + 1]) {
         st(i + 1, data);
       }
-    }, 1000);
+    }, 200);
     return st();
   };
 
@@ -1960,8 +1911,7 @@ export default function DemoPulseGraph({wrapperClass}: {wrapperClass: string;}) 
     }
 
     if (data && !chart) {
-      console.log('#1', data);
-      const d3Chart = new PulseChart('.' + wrapperClass, data, siteName)
+      const d3Chart = new PulseChart('.' + wrapperClass, data, 'The New York Times')
       setD3chart(d3Chart);
       d3Chart.create();
     }

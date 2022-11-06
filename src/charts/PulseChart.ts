@@ -59,7 +59,7 @@ export class PulseChart {
       console.log(this.data[0]);
       this.x.domain(<Iterable<NumberValue | Date>>d3.extent<PulseItem>(this.data, (d) => d?.date));
       this.y.domain(<Iterable<NumberValue>>[
-        60, 100
+        60, 90
       ]);
     
       this.svg.append('g')
@@ -112,13 +112,14 @@ export class PulseChart {
 
       // add the Line
       const valueLine = d3.line<any>()
+        .curve(d3.curveBasis)
         .x((d: PulseItem) => this.x?.(d?.date as unknown as Date) || 0)
         .y((d: PulseItem) => this.y?.(d?.value as unknown as Date) || 0);
 
       this.svg.select('path.line')
         .data([data])
         .attr('fill', 'none')
-        .attr('stroke', (this.data.length % 2) ? 'blue' : 'red')
+        .attr('stroke', 'blue' )
         .attr('stroke-width', 2.5)
         .attr('d', valueLine);
 
