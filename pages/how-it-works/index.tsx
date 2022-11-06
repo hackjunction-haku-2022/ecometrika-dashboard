@@ -4,10 +4,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import DemoPulseGraph from '../../src/client/components/DemoPulseGraph';
 import Image from 'next/image';
+import Menu from "../../src/client/components/Menu";
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-
-import Menu from "../../src/client/components/Menu";
 
 export default function Home() {
   return (
@@ -22,35 +21,23 @@ export default function Home() {
         }}
       >
         <Typography variant="h2" component="h1" gutterBottom>
-          Listen to your <span color="red">pulse</span>. Demo
+          Listen to your <span color="red">pulse</span>. How it works?
         </Typography>
-        
-        <Menu active="3" />
-
-        <Box
-          sx={{
-            mt: '22px',
-          }}
-        >
-          
-          <Typography variant="subtitle1" component="h3" gutterBottom>
-          We present you the emulation of the real-time process of watching the New York Times WebSite.
-        </Typography>
-        
-          </Box>
-
-        <ImageList sx={{ width: 700, height: 200 }} cols={3} rowHeight={164}>
+        <Menu active="2" />
+        <ImageList sx={{ width: 980 }} cols={1} rowHeight={560}>
           <ImageListItem key={1}>
-          <Image src="/1.png" alt="me"  width='250' height="180" />
+            <Image src="/1s.jpg" alt="me"  width='960' height="540" />
           </ImageListItem>
           <ImageListItem key={2}>
-          <Image src="/2.png" alt="me"  width='250' height="180" />
+          <Image src="/2s.jpg" alt="me"  width='960' height="540" />
           </ImageListItem>
           <ImageListItem key={3}>
-          <Image src="/3.png" alt="me" width='250' height="180" />
+          <Image src="/3s.jpg" alt="me" width='960' height="540" />
+          </ImageListItem>
+          <ImageListItem key={3}>
+          <Image src="/4s.jpg" alt="me" width='960' height="540" />
           </ImageListItem>
         </ImageList>
-        <DemoPulseGraph wrapperClass="demo" />
       </Box>
     </Container>
   );
